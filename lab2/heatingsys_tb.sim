@@ -1,0 +1,8 @@
+add wave -color cyan clock
+add wave -color cyan reset
+add wave -radix signed -color cyan des_temp
+add wave -radix signed -color cyan cur_temp
+add wave -color plum heatmode
+
+run 200 ns
+

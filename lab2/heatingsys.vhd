@@ -36,20 +36,22 @@ begin
      else
       case state is 
         when OFF =>
-          if ((3 <= (i_cur_temp - i_des_temp)) AND ((i_cur_temp - i_des_temp)  < 5)) then
+          if ((3 <= (i_des_temp - i_cur_temp)) AND ((i_des_temp - i_cur_temp)  < 5)) then
             state <= LOW;
-          else 
-           -- shouldn't need this --  if (5 <= (i_des_temp - i_cur_temp))
+          elsif (5 <= (i_des_temp - i_cur_temp)) then
               state <= HIGH;
            -- shouldn't need this -- end if;
+          else 
+              state <= OFF;
           end if;
         when LOW =>
-          if (7 <= (i_cur_temp - i_des_temp)) then
+          if (7 <= (i_des_temp - i_cur_temp)) then
             state <= HIGH;
-          else
-            -- shouldn't need this -- if (2 < (i_cur_temp - i_des_temp))
-            state <= LOW;
+          elsif (2 < (i_cur_temp - i_des_temp)) then
+            state <= OFF;
             -- shouldn't need this -- end if
+          else
+            state <= LOW;
           end if; 
         when HIGH =>
           if (3 < (i_cur_temp - i_des_temp)) then
@@ -62,7 +64,7 @@ begin
           --failsafe
           state <= OFF;
       end case;  
-    end if;
+     end if;
     end if;
   end process;
 

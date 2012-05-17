@@ -9,7 +9,7 @@
 //  
 //  Running on Linux sm2john@eceLinux1.uwaterloo.ca #1 SMP Tue Apr 17 17:08:00 EDT 2012 2.6.18-308.4.1.el5 x86_64
 //  
-//  Start time Wed May 16 13:32:31 2012
+//  Start time Thu May 17 15:14:45 2012
 # -------------------------------------------------
 # Info: [9566]: Logging session transcript to file /home/sm2john/ece327/lab2/precision.log
 # 
@@ -46,7 +46,7 @@
 # Info: [44523]: Root Module work.heatingsys(main): Compiling...
 # Info: [44842]: Compilation successfully completed.
 # Info: [44835]: Total CPU time taken for compilation: 0.0 secs.
-# Info: [44856]: Total lines of RTL compiled: 53.
+# Info: [44856]: Total lines of RTL compiled: 55.
 # Info: [44513]: Overall running time 1.0 secs.
 # Info: [641]: Current working directory: /home/sm2john/ece327/lab2/uw_tmp/.
 # Info: [644]: Finished compiling design.
@@ -60,6 +60,3 @@ dofile uw_tmp/uw-gate-synth.tcl
 # COMMAND: exit -force
 # 
 # COMMAND: close_results_dir
-# Info: [9578]: Results directory is closed.
-close_results_dir
-exit -force

@@ -4,8 +4,8 @@ proc reload {} {
   vcom -93 +acc -work work-msim heatingsys.vhd heatingsys_tb.vhd
 }
 
-if { "" ne "" } {
-  source 
+if { "heatingsys_tb.sim" ne "" } {
+  source heatingsys_tb.sim
 }
 
 

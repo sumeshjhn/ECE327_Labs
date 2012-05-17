@@ -28,12 +28,11 @@ begin
 
   process 
   begin
-  if (clock = '1') then
+  --clock <= NOT clock;
   clock <= '0';
-  else
+wait for 10 ns;
   clock <= '1';
-  end if;
-  wait for 10 ns;
+wait for 10 ns;
   end process;
 
 
@@ -43,58 +42,56 @@ begin
   cur_temp <= to_signed(0,8);
   des_temp <= to_signed(0,8);
   reset <= '0';
-  wait for 10 ns;
+wait for 20 ns;
   -----------------------
   --------state = off->low
   cur_temp <= to_signed(20,8);
   des_temp <= to_signed(23,8);
   reset <= '0';
-  wait for 10 ns;
+wait for 20 ns;
   -----------------------
   --------state = low->high
   cur_temp <= to_signed(20,8);
   des_temp <= to_signed(27,8);
   reset <= '0';
-  wait for 10 ns;
+wait for 20 ns;
   -----------------------
   --------state = high->low
-  cur_temp <= to_signed(20,8);
-  des_temp <= to_signed(22,8);
+  cur_temp <= to_signed(24,8);
+  des_temp <= to_signed(20,8);
   reset <= '0';
-  wait for 10 ns;
+wait for 20 ns;
   -----------------------
     --------state = low->off
-  cur_temp <= to_signed(20,8);
-  des_temp <= to_signed(21,8);
+  cur_temp <= to_signed(23,8);
+  des_temp <= to_signed(20,8);
   reset <= '0';
-  wait for 10 ns;
+wait for 20 ns;
   -----------------------
   --------state = off->high
   cur_temp <= to_signed(20,8);
   des_temp <= to_signed(25,8);
   reset <= '0';
-  wait for 10 ns;
+wait for 20 ns;
   -----------------------
   --------state = high (RESET)
   reset <= '1';
-  clock <= '1';
   cur_temp <= to_signed(23,8);
   des_temp <= to_signed(20,8);
-  wait for 10 ns;
+wait for 20 ns;
   -----------------------
   --------state = off (RESET)
   reset <= '1';
-  clock <= '1';
   cur_temp <= to_signed(23,8);
   des_temp <= to_signed(20,8);
-  wait for 10 ns;
+wait for 20 ns;
   -----------------------
   --------state = off->low (RESET)
   cur_temp <= to_signed(23,8);
   des_temp <= to_signed(20,8);
   reset <= '1';
-  wait for 10 ns;
   -----------------------
+wait for 10 ns;
   end process;
 
 end architecture;
