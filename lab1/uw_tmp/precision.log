@@ -1,0 +1,58 @@
+# Info: [9566]: Logging session transcript to file /home/sm2john/ece327/lab1/precision.log
+//  Precision RTL Synthesis 2008a.47 (Production Release) Tue Dec  9 03:06:25 PST 2008
+//  
+//  Copyright (c) Mentor Graphics Corporation, 1996-2008, All Rights Reserved.
+//             Portions copyright 1991-2004 Compuware Corporation
+//                       UNPUBLISHED, LICENSED SOFTWARE.
+//            CONFIDENTIAL AND PROPRIETARY INFORMATION WHICH IS THE
+//          PROPERTY OF MENTOR GRAPHICS CORPORATION OR ITS LICENSORS
+//  
+//  Running on Linux sm2john@ecelinux4.uwaterloo.ca #1 SMP Tue Apr 17 23:56:34 BST 2012 2.6.32-220.13.1.el6.x86_64 x86_64
+//  
+//  Start time Thu May 10 22:33:49 2012
+# -------------------------------------------------
+# Info: [9566]: Logging session transcript to file /home/sm2john/ece327/lab1/precision.log
+# 
+# COMMAND: dofile uw_tmp/uw-gate-synth.tcl
+# Info: [9575]: Results directory: /home/sm2john/ece327/lab1/uw_tmp/
+# Info: [9569]: Moving session transcript to file /home/sm2john/ece327/lab1/uw_tmp/precision.log
+# Info: [15291]:  Setting up the design to use synthesis library "stratixii.syn"
+# Info: [566]: The global max fanout is currently set to 1000 for Altera - Stratix II.
+# Info:  Setting Part to: "EP2S15F484C"
+# Info:  Setting Process to: "5"
+# Info: [3021]: Reading file: /opt/Precision_Synthesis_2008a.47/Mgc_home/pkgs/psr/techlibs/stratixii.syn.
+# Info: [618]: Loading library initialization file /opt/Precision_Synthesis_2008a.47/Mgc_home/pkgs/psr/userware/armstrong_rename.tcl
+# Info: [40000]: vhdlorder, Release 2008a.22
+# Info: [40000]: Files sorted successfully.
+# Info: [40000]: hdl-analyze, Release RTLC-Precision 2008a.22
+# Info: [42502]: Analyzing input file "/home/sm2john/ece327/lab1/myflipflop.vhd" ...
+# Info: [641]: Current working directory: /home/sm2john/ece327/lab1/uw_tmp/.
+# Info: [40000]: RTLC-Driver, Release RTLC-Precision 2008a.22
+# Info: [40000]: Last compiled on Nov 27 2008 12:40:04
+# Info: [44512]: Initializing...
+# Info: [44504]: Partitioning design ....
+# Info: [40000]: RTLCompiler, Release RTLC-Precision 2008a.22
+# Info: [40000]: Last compiled on Nov 27 2008 12:46:53
+# Info: [44512]: Initializing...
+# Info: [44522]: Root Module work.myflipflop(main): Pre-processing...
+# Info: [44523]: Root Module work.myflipflop(main): Compiling...
+# Info: [44812]: "/home/sm2john/ece327/lab1/myflipflop.vhd", line 63: Sharing register i_q_d_intermediate with o_q_d
+# Info: [44842]: Compilation successfully completed.
+# Info: [44835]: Total CPU time taken for compilation: 0.0 secs.
+# Info: [44856]: Total lines of RTL compiled: 68.
+# Info: [44513]: Overall running time 1.0 secs.
+# Info: [641]: Current working directory: /home/sm2john/ece327/lab1/uw_tmp/.
+# Info: [644]: Finished compiling design.
+# Info: i_clock
+# Info: -- Saving the design database in myflipflop_gate.xdb
+# Info: [3026]: Writing file: myflipflop_gate.vho.
+# Info: Info, Command 'auto_write' finished successfully
+# Info: *** synthesis to generic gates succeeded ***
+dofile uw_tmp/uw-gate-synth.tcl
+# 
+# COMMAND: exit -force
+# 
+# COMMAND: close_results_dir
+# Info: [9578]: Results directory is closed.
+close_results_dir
+exit -force

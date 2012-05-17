@@ -1,0 +1,75 @@
+m255
+K3
+13
+cModel Technology
+Z0 d/home/sm2john/ece327/lab1
+Emyflipflop
+Z1 w1336703593
+Z2 DPx3 std 6 textio 0 22 5>J:;AW>W0[[dW0I6EN1Q0
+Z3 DPx4 ieee 14 std_logic_1164 0 22 5=aWaoGZSMWIcH0i^f`XF1
+Z4 d/home/sm2john/ece327/lab1
+Z5 8myflipflop.vhd
+Z6 Fmyflipflop.vhd
+l0
+L4
+VD<>cc]Rn?e04OJeLMHMe70
+Z7 OL;C;10.1;51
+31
+Z8 !s108 1336703619.188671
+Z9 !s90 -93|+acc|-work|work-msim|myflipflop.vhd|
+Z10 !s107 myflipflop.vhd|
+Z11 o-93 +acc -work work-msim
+Z12 tExplicit 1
+!s100 I`>j=FzPm]1e1ma60PT>`2
+!i10b 1
+Amain
+R2
+R3
+DEx4 work 10 myflipflop 0 22 D<>cc]Rn?e04OJeLMHMe70
+l25
+L21
+VSLL;D4V79X@jKV`783aI[3
+R7
+31
+R8
+R9
+R10
+R11
+R12
+!s100 HJ=`O7^mZdeEBfW2cmNJY2
+!i10b 1
+Esum
+Z13 w1336676219
+R2
+R3
+R4
+Z14 8sum.vhd
+Z15 Fsum.vhd
+l0
+L4
+VaHIjSJFUeY]]>h18BV78?1
+!s100 8:ao_5=Q8kN?HG>]dHKC52
+R7
+31
+!i10b 1
+Z16 !s108 1337026593.122342
+Z17 !s90 -93|+acc|-work|work-msim|sum.vhd|
+Z18 !s107 sum.vhd|
+R11
+R12
+Amain
+R2
+R3
+DEx4 work 3 sum 0 22 aHIjSJFUeY]]>h18BV78?1
+l11
+L10
+V6=8DMIBo@=zG^`[cVQkeL3
+!s100 93XoM:Xjh>h051lozH2fZ2
+R7
+31
+!i10b 1
+R16
+R17
+R18
+R11
+R12

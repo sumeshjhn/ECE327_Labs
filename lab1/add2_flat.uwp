@@ -1,0 +1,7 @@
+TB_ENTITY = add2_flat_tb
+TB_ARCH = main
+TB_VHDL = add2_flat_tb.vhd
+
+DESIGN_ENTITY = add2
+DESIGN_ARCH = flat
+DESIGN_VHDL = sum.vhd carry.vhd fulladder.vhd add2.vhd
