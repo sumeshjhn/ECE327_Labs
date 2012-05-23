@@ -1,0 +1,28 @@
+                   Clock Frequency Report
+
+	Domain                  Clock Name                            Min Period (Freq)
+	------                  ----------                            -----------------
+	ClockDomain2            u_audio_dac_reg_lrck_1x/regout        2.287 (437.254 MHz)  
+	ClockDomain0            clock_27                              9.544 (104.778 MHz) *
+	ClockDomain1            aud_bclk                              1.521 (657.462 MHz)  
+
+*  DLL/PLL clocks present in this clock domain. Estimated frequencies are shown.
+
+Setup Slack Path Summary
+
+               Data                       Data            Data
+       Setup   Path    Source    Dest.    Start   Data    End 
+Index  Slack   Delay   Clock     Clock     Pin   End Pin  Edge
+-----  ------  -----  --------  --------  -----  -------  ----
+  1    -4.700  8.700  clock_27  clock_27  sw(2)  hex6(6)  Rise
+  2    -4.697  8.697  clock_27  clock_27  sw(1)  hex6(6)  Rise
+  3    -4.674  8.674  clock_27  clock_27  sw(3)  hex6(6)  Rise
+  4    -4.577  8.577  clock_27  clock_27  sw(5)  hex6(6)  Rise
+  5    -4.434  8.434  clock_27  clock_27  sw(0)  hex6(6)  Rise
+
+-- Device: Altera - Cyclone II : EP2C35F672C : 7
+-- CTE report summary..
+                  CTE Report Summary
+
+Analyzing setup constraint violations 
+End CTE Report Summary ..... CPU Time Used: 0 sec.

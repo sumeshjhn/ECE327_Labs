@@ -68,6 +68,7 @@ architecture main of fir_top is
   signal sine_data
        , noise_data
        , audio_out
+       , o_fir
        : word;
   
   --------------------------------------------------------------
@@ -111,7 +112,11 @@ begin
 
   process begin
     wait until rising_edge( data_clk );
-    audio_out <= sine_data;
+    if (sw(17)='0') then
+      audio_out <= sine_data;
+    else
+      audio_out <= noise_data;
+    end if;
   end process;
   
   --------------------------------------------------------------
@@ -121,10 +126,10 @@ begin
   
   display_freq <= frequency_map( to_integer ( sine_freq ) );
 
-  hex7 <= to_sevenseg( unsigned(display_freq(15 downto 12)) );
-  hex6 <= to_sevenseg( unsigned(display_freq(11 downto  8)) );
-  hex5 <= to_sevenseg( unsigned(display_freq( 7 downto  4)) );
-  hex4 <= to_sevenseg( unsigned(display_freq( 3 downto  0)) );
+  hex7 <= to_sevenseg( unsigned(display_freq(15 downto 12)) ) when sw(17)='0' else to_sevenseg(X"0");
+  hex6 <= to_sevenseg( unsigned(display_freq(11 downto  8)) ) when sw(17)='0' else to_sevenseg(X"1");
+  hex5 <= to_sevenseg( unsigned(display_freq( 7 downto  4)) ) when sw(17)='0' else to_sevenseg(X"5");
+  hex4 <= to_sevenseg( unsigned(display_freq( 3 downto  0)) ) when sw(17)='0' else to_sevenseg(X"E");
 
   hex3 <= (others => 'Z');
   hex2 <= (others => 'Z');
@@ -145,14 +150,20 @@ begin
     end if;
   end process;
     
-  serial_audio_out <= audio_out(to_integer(15 - bit_position));
+  serial_audio_out <= audio_out(to_integer(15 - bit_position)) when (sw(16)='0') else o_fir(to_integer(15 - bit_position));
   
   aud_dacdat       <= serial_audio_out;
   
   --------------------------------------------------------------
   -- audio peripheral
   --
-  
+  avg: entity work.fir(avg)
+    port map (
+     clk=>data_clk,
+     i_data=>audio_out,
+     o_data=>o_fir
+    );
+ 
   ----------------------------------------------------
   -- provide clocks to ADC and DAC and bit clock for serial data
   aud_adclrck <= data_clk;
