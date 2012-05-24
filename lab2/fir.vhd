@@ -90,6 +90,7 @@ begin
   sumLoop: for i in 3 to num_taps generate
     sum(i) <= sum(i-1) + prod(i);
   end generate sumLoop;
+  o_data <= sum(num_taps);
 end architecture;
 
 -- question 2
