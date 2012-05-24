@@ -1,0 +1,6 @@
+add wave -color cyan clock
+add wave -color cyan i_data
+add wave -radix signed -color cyan o_data
+
+run 200 ns
+
