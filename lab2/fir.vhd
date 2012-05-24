@@ -94,7 +94,7 @@ begin
 end architecture;
 
 -- question 2
-  -- insert your answer here
+-- 16 LUTs in one of the adders
 
 -- question 3
-  -- insert your answer here
+-- approximately 32 as it requires two adders to make a multiplyer. In fir_area summary, it stated that 47 LUTs were used in total and 16 of them were used to build adders.
