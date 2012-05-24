@@ -19,7 +19,7 @@ architecture main of fir_tb is
 	signal o_data	: word;
 begin
 	
-	uut : entity work.fir(avg)
+	uut : entity work.fir(low_pass)
     port map (
       i_data => i_data,
       clk => clock,
@@ -41,7 +41,33 @@ begin
 			wait until rising_edge(clock);
 			wait until rising_edge(clock);
 			wait until rising_edge(clock);
+			wait until rising_edge(clock);
+			wait until rising_edge(clock);
+			wait until rising_edge(clock);
+			wait until rising_edge(clock);
+			wait until rising_edge(clock);
+			wait until rising_edge(clock);
+			wait until rising_edge(clock);
+			wait until rising_edge(clock);
+			wait until rising_edge(clock);
+			wait until rising_edge(clock);
+			wait until rising_edge(clock);
+			wait until rising_edge(clock);
+			wait until rising_edge(clock);
 			i_data <= x"0010";
+			wait until rising_edge(clock);
+			wait until rising_edge(clock);
+			wait until rising_edge(clock);
+			wait until rising_edge(clock);
+			wait until rising_edge(clock);
+			wait until rising_edge(clock);
+			wait until rising_edge(clock);
+			wait until rising_edge(clock);
+			wait until rising_edge(clock);
+			wait until rising_edge(clock);
+			wait until rising_edge(clock);
+			wait until rising_edge(clock);
+			wait until rising_edge(clock);
 			wait until rising_edge(clock);
 			wait until rising_edge(clock);
 			wait until rising_edge(clock);
