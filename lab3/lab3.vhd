@@ -13,42 +13,52 @@ entity lab3 is
 end entity lab3;
 
 architecture main of lab3 is
-signal counter : signed(7 downto 0);
-signal weB0 : std_logic:='0';
-type bankElement is array(0 to 2) of unsigned(7 downto 0);
-signal bankElementArray : bankElement(15 downto 0);
+signal counter : signed(7 downto 0);				-- number of times the condition is met
+signal wrenArray : std_logic_vector (2 downto 0):="000";	-- write  enable array for the banks (write only one bank at a time)
+signal column : std_logic_vector (15 downto 0):=x"0000";	-- the 16 column indexer
+signal row : std_logic_vector (2 downto 0):="000";		-- the 3 row indexer
+type bankElement is array(0 to 2) of unsigned(7 downto 0);	-- DATA-TYPE: the 3 row column, each cell 8 bits wide
+								   -- mem.vhd is the 16 column row, and we are instantiating it 3 times
+signal bankElementArray : bankElement;				-- the "window" or reference to see the column; we access the three rows
 begin
+	bankLoop: for i in 0 to 2 generate
+		-- instantiate the entities here
+		memBank: entity work.mem(main)
+			port map (
+				address => column, 
+				clock => i_clock,
+				data => i_input,
+				wren => wrenArray(i),
+				q => bankElementArray(i),
+			); 
+	end generate bankLoop;
 
-	sumLoop: for i in 0 to 2 generate
-		-- instantiate the entities here 
-	end generate sumLoop;
-
-	firstBank: entity work.mem(main)
-	  port map (
-	   address=> ,
-	   clock=>i_clock,
-	   data=> ,
-           wren=> weB0,
-	   q=>
-	);
-
-	secondBank: entity work.mem(main)
-	  port map (
-	   address=> ,
-	   clock=>i_clock,
-	   data=> ,
-           wren=> weB1,
-	   q=>bank1
-	);
-
-	thirdBank: entity work.mem(main)
-	  port map (
-	   address=> ,
-	   clock=>i_clock,
-	   data=> ,
-           wren=> weB2,
-	   q=>bank2
-	);
+--	firstBank: entity work.mem(main)
+--	  port map (
+--	   address=> , --16
+--	   clock=>i_clock,
+--	   data=> ,
+--         wren=> weB0, --3 
+--	   q=>
+--	);
+--
+--	secondBank: entity work.mem(main)
+--	  port map (
+--	   address=> ,
+--	   clock=>i_clock,
+--	   data=> ,
+--         wren=> weB1,
+--	   q=>bank1
+--	);
+--
+--	thirdBank: entity work.mem(main)
+--	  port map (
+--	   address=> ,
+--	   clock=>i_clock,
+--	   data=> ,
+--         wren=> weB2,
+--	   q=>bank2
+--	);
 
 	process (i_clock, i_reset)
 	begin
@@ -81,7 +91,6 @@ end architecture main;
 -- 2) check to see if the algorithm is feasible
 -- 3) proper way to set up the banks
 -- 4) (main reasin derrived from 3)) how to use wren
--- 5) 
 
 -- Q1: number of flip flops and lookup tables?
 --
