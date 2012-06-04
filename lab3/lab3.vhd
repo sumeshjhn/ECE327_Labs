@@ -2,6 +2,38 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+entity compute is
+  port (
+    i_clock	  : in std_logic;			
+    i_i1, i_i2    : in signed(7 downto 0);  
+    o_p   	  : out signed(7 downto 0)  -- output data
+  );
+end entity compute;
+
+----see section 2.7.8 VHDL Implementation #2
+---- r1 = i1-i2 and r2 <= i2 (from next cycle)
+---- r1 + r2 becomes output
+architecture p_compute of compute is
+signal r1, r2 : signed (7 downto 0);
+begin
+	process
+	begin
+		wait until rising_edge(i_clock);
+		r1 <= i_i1;
+		r2 <= i_i2;
+		wait until rising_edge(i_clock);
+		r1 <= r1 - r2;
+		r2 <= i_i2;
+		wait until rising_edge(i_clock);
+		r1 <= r1 + r2;
+	end process;
+	o_p <= r1;
+end architecture;
+
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
 entity lab3 is
   port (
     i_clock    : in std_logic;                     -- the system clock
@@ -12,101 +44,133 @@ entity lab3 is
   );
 end entity lab3;
 
+
 architecture main of lab3 is
 signal counter : unsigned(7 downto 0);				-- number of times the condition is met
-signal wrenArray : std_logic_vector (2 downto 0):="000";	-- write  enable array for the banks (write only one bank at a time)
-signal col : natural:= 0;			-- the 16 column indexer
-signal row : natural:= 0;				-- the 3 row indexer
-type bankElement is array(0 to 2) of signed(7 downto 0);	-- DATA-TYPE: the 3 row column, each cell 8 bits wide
+signal wrenArray : std_logic_vector (2 downto 0);	-- write  enable array for the banks (write only one bank at a time)
+signal col : std_logic_vector (3 downto 0);			-- the 16 column indexer
+signal row : std_logic_vector(2 downto 0);
+type bankElement is array(2 downto 0) of std_logic_vector(7 downto 0);	-- DATA-TYPE: the 3 row column, each cell 8 bits wide
 								   -- mem.vhd is the 16 column row, and we are instantiating it 3 times
 signal bankElementArray : bankElement;				-- the "window" or reference to see the column; we access the three rows
+signal enough_data : std_logic;
+signal i1, i2, internal_p : signed (7 downto 0);
+signal total_rows : unsigned (7 downto 0);
 begin
-	bankLoop: for i in 0 to 2 generate
-		-- instantiate the entities here
-		memBank: entity work.mem(main)
-			port map (
-				address => std_logic_vector(col, 8), 
-				clock => i_clock,
-				data => i_input,
-				wren => wrenArray(i),
-				q => std_logic_vector(bankElementArray(i), 8)
-			); 
-	end generate bankLoop;
+	memBank0: entity work.mem(main)
+		port map (
+			address => col, 
+			clock => i_clock,
+			data => i_input,
+			wren => wrenArray(0),
+			q => bankElementArray(0)
+		);
 
---	firstBank: entity work.mem(main)
---	  port map (
---	   address=> , --16
---	   clock=>i_clock,
---	   data=> ,
---         wren=> weB0, --3 
---	   q=>
---	);
---
---	secondBank: entity work.mem(main)
---	  port map (
---	   address=> ,
---	   clock=>i_clock,
---	   data=> ,
---         wren=> weB1,
---	   q=>bank1
---	);
---
---	thirdBank: entity work.mem(main)
---	  port map (
---	   address=> ,
---	   clock=>i_clock,
---	   data=> ,
---         wren=> weB2,
---	   q=>bank2
---	);
+	memBank1: entity work.mem(main)
+		port map (
+			address => col, 
+			clock => i_clock,
+			data => i_input,
+			wren => wrenArray(1),
+			q => bankElementArray(1)
+		);
 
-	process (i_clock, i_reset)
+	memBank2: entity work.mem(main)
+		port map (
+			address => col, 
+			clock => i_clock,
+			data => i_input,
+			wren => wrenArray(2),
+			q => bankElementArray(2)
+		);
+
+	ComputeP: entity work.compute(p_compute)
+	  port map (
+	    i_clock => i_clock,			
+	    i_i1 => i1,
+	    i_i2 => i2,  
+	    o_p => internal_p
+	  );
+
+--LEGEND: NED = not enough data, ED = enough data
+--idle--
+--check for valid data
+--once valid...go to NED state
+	process 
 	begin
-	if (rising_edge(i_clock)) then
-		if (i_reset='1') then
-			counter <= 0;
-			-- insert code to clear the matrix here
-			--i_reset <= '0';
-		else
-			-- first byte is the first element in the EMPTY matrix
+		wait until (rising_edge(i_clock)); 
+		if (row="010") then
+			enough_data <= '1';
+			counter <= to_unsigned(0,8);
 		end if;
-	end if;
+		
 	end process;
 
-   process(i_valid, i_input) begin
-		if(i_valid = '1') then 
-			if (row < 3) then 
-				wrenArray(row) <= '1';
-				if (col < 16) then
-			   		bankElementArray(row) <= to_signed(i_input, 8);
-			    		col <= col + 1;
-			    --check to reset col (and row if col=16)
-			      --also do check to see if matrix is full (if it is, reset col and row to oldest element)
-			    --add to matrix
-			      --when we hit row=2 and col =0, start calculating output until we hit the end of the third row
-				--increment 'counter' each time the condition in the manual is satisfied
-					if (row = 2) then 
-						if ((bankElementArray(row - 2) - bankElementArray(row -1) + bankElementArray(row) ) > to_signed(0,7)) then 
-							counter <= counter + 1;
-						end if;
-					end if;
-				
-			    --increment col
-				elsif (col >= 16) then
-					wrenArray(row) <= '0';
-					row <= row + 1;
-					col <= 0;	
+	process 
+	begin
+		wait until (rising_edge(i_clock)); 
+			if ((i_reset='1') OR (total_rows=15)) then
+				col <= "0000";
+				row <= "000";
+				enough_data <= '0';
+				total_rows <= to_unsigned(0,8);
+			end if;
+		
+	end process;
+
+--this process has a problem with all the wait untils...we need to break it down
+-- new statemachine?
+-- multiple processes?
+	process  
+	begin
+		wait until rising_edge(i_clock);
+			if (i_valid='1' AND i_reset='0') then
+				wrenArray(to_integer(unsigned(row))) <= '1';
+				wait until rising_edge(i_clock);
+				bankElementArray(to_integer(unsigned(row))) <= i_input;
+				wrenArray(to_integer(unsigned(row))) <= '0';
+				wait until rising_edge(i_clock);
+				if (enough_data = '1') then
+					case row is 
+						when "000" =>
+					  		i1 <= signed(bankElementArray(to_integer((signed(row))+1)));
+					  		i2 <= signed(bankElementArray(to_integer((signed(row))+2)));
+						when "001" =>
+					  		i1 <= signed(bankElementArray(to_integer((signed(row))+1)));
+					  		i2 <= signed(bankElementArray(to_integer((signed(row))-1)));
+						when "010" =>
+					  		i1 <= signed(bankElementArray(to_integer((signed(row))-2)));
+					  		i2 <= signed(bankElementArray(to_integer((signed(row))-1)));
+						when others =>
+							--failsafe
+					end case;
+					wait until rising_edge(i_clock);
+					i2 <= signed(bankElementArray(to_integer((signed(row)))));
+					wait until rising_edge(i_clock);
+					if (internal_p >= to_signed(0,8)) then
+						counter <= counter + 1;
+						o_output <= std_logic_vector(counter);
+					end if; 	
+							
 				end if;
-			elsif (row > 2) then
-				o_output <= std_logic_vector(counter);
-				row <= 0;
-			end if; 
-		end if;
-   end process;
+				col <= std_logic_vector(unsigned(col)+1);
+				if NOT(to_integer(unsigned(col)) < 16) then
+					row <= std_logic_vector(unsigned(row) + 1);
+					total_rows <= total_rows + 1;
+					if (row > "010") then
+						row <= "000";
+					end if;
+					col <= "0000";
+				end if;	
+			end if;
+	end process;
 
 end architecture main;
+
+
 --Notes:
 -- 2) check to see if the algorithm is feasible
+
 -- 3) proper way to set up the banks
 -- 4) (main reasin derrived from 3)) how to use wren
 
